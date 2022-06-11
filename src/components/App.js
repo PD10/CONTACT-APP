@@ -19,13 +19,17 @@ import ContactList from "./ContactList";
 // ]
 
 function App() {
-
   const [contacts, setContacts] = useState([]);
+
+  const addContactHandler = (contact) => {
+    // Yaha pe ek naya array bann raha hai and usme contacts unpack hua ek ek karke and ek aur item bass judd gaya
+    setContacts([...contacts, contact]);
+  }
 
   return (
     <div className = "ui container">
       <Header />
-      <AddContact />
+      <AddContact addContactHandler={addContactHandler} />
       <ContactList contacts={contacts} />
       {/* <ParentComponent /> */}
     </div>
