@@ -30,6 +30,7 @@ const AddContact = (props) => {
         }
 
         props.addContactHandler(contact);
+        setContact({ name: "", email: "" });
     }
 
     return (
