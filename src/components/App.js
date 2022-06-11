@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuid } from 'uuid';
 import Header from "./Header";
 import AddContact from "./AddContact";
 import ContactList from "./ContactList";
@@ -24,11 +25,20 @@ function App() {
 
   const addContactHandler = (contact) => {
     // Yaha pe ek naya array bann raha hai and usme contacts unpack hua ek ek karke and ek aur item bass judd gaya
-    setContacts([...contacts, contact]);
+    setContacts([...contacts, { id: uuid(), ...contact }]);
+  }
+
+  const removeContactHandler = (id) => {
+    const newContactList = contacts.filter((contact) => {
+      return contact.id !== id;
+    });
+
+    setContacts(newContactList);
   }
 
   useEffect(() => {
     const retrieveContacts = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY));
+    console.log(retrieveContacts);
     if(retrieveContacts) {
       setContacts(retrieveContacts);
     }
@@ -42,7 +52,7 @@ function App() {
     <div className = "ui container">
       <Header />
       <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} />
+      <ContactList contacts={contacts} removeContactHandler={removeContactHandler}/>
       {/* <ParentComponent /> */}
     </div>
   );

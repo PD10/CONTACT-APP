@@ -2,23 +2,26 @@ import React from 'react';
 
 const ContactCard = (props) => {
     const {
-        id,
-        name,
-        email
-    } = props.contact;
-
+        contact,
+        handleDelete
+    } = props;
 
     return (
         <div className = "item">
             <div className = "content">
                 <div className = "header">
-                    {name}
+                    {contact.name}
                 </div>
                 <div>
-                    {email}
+                    {contact.email}
                 </div>
             </div>
-            <i className = "trash alternate outline icon" style={{ color: "red", marginTop: "7px" }}></i>
+            <i 
+                className = "trash alternate outline icon" 
+                style = {{ color: "red", marginTop: "7px" }}
+                onClick = {() => handleDelete(contact.id)}
+                >
+            </i>
         </div>
     );
 }
