@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ContactCard = (props) => {
     const {
@@ -9,12 +10,14 @@ const ContactCard = (props) => {
     return (
         <div className = "item">
             <div className = "content">
-                <div className = "header">
-                    {contact.name}
-                </div>
-                <div>
-                    {contact.email}
-                </div>
+                <Link to = {{ pathName: `/contact/${contact.id}`, state: {contact: contact}}}>
+                    <div className = "header">
+                        {contact.name}
+                    </div>
+                    <div>
+                        {contact.email}
+                    </div>
+                </Link>
             </div>
             <i 
                 className = "trash alternate outline icon" 
