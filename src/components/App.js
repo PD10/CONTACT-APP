@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import axios from 'axios';
 import Header from "./Header";
 import AddContact from "./AddContact";
 import ContactList from "./ContactList";
 import ContactDetail from "./ContactDetail";
+import EditContact from "./EditContact";
 // import ParentComponent from "./ParentComponent";
 // import './App.css';
 
@@ -27,10 +29,35 @@ function App() {
 
   const addContactHandler = (contact) => {
     // Yaha pe ek naya array bann raha hai and usme contacts unpack hua ek ek karke and ek aur item bass judd gaya
-    setContacts([...contacts, { id: uuid(), ...contact }]);
+    const payload = {
+      id: uuid(),
+      ...contact
+    }
+
+    axios.post("http://localhost:3006/contacts", payload)
+      .then((response) => {
+        setContacts([...contacts, response.data]);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  const updateContactHandler = (contact) => {
+    axios.put(`http://localhost:3006/contacts/${contact.id}`, contact)
+      .then((response) => {
+        const { id, name, email } = response.data;
+        setContacts(contacts.map(contact => {
+          return contact.id === id ? { ...response.data } : contact
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   const removeContactHandler = (id) => {
+    axios.delete(`http://localhost:3006/contacts/${id}`);
     const newContactList = contacts.filter((contact) => {
       return contact.id !== id;
     });
@@ -39,11 +66,13 @@ function App() {
   }
 
   useEffect(() => {
-    const retrieveContacts = JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY));
-    console.log(retrieveContacts);
-    if(retrieveContacts) {
-      setContacts(retrieveContacts);
-    }
+    axios.get("http://localhost:3006/contacts")
+      .then((response) => {
+        setContacts(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }, []);
 
   useEffect(() => {
@@ -88,6 +117,16 @@ function App() {
               />
             }
           /> */}
+          <Route 
+            path = "/edit"
+            render = {(props) => 
+              <EditContact
+                // Destructuring the props and unpacking it
+                {...props}
+                updateContactHandler={updateContactHandler} 
+              />
+            }
+          />
           <Route path="/contact/:id" exact component={ContactDetail} />
         </Switch>
         {/* <ParentComponent /> */}

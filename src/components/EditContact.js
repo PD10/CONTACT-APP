@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-const AddContact = (props) => {
+const EditContact = (props) => {
+    const {
+        id,
+        name,
+        email
+    } = props.location.state.contact;
+
+
 
     useEffect(() => {
         // console.log('Component connected to DOM');
@@ -10,7 +17,7 @@ const AddContact = (props) => {
         // console.log('Component rendered');
     });
 
-    const [contact, setContact] = useState({ name: '', email: ''});
+    const [contact, setContact] = useState({ name: name, email: email});
 
     const handleNameChnage = (event) => {
         // console.log('handleNameChange');
@@ -22,14 +29,14 @@ const AddContact = (props) => {
         setContact({ ...contact, email: event.target.value});
     }
 
-    const add = (event) => {
+    const update = (event) => {
         event.preventDefault();
         if(contact.name === "" || contact.email === "") {
             alert("All fields are mandatory");
             return;
         }
 
-        props.addContactHandler(contact);
+        props.updateContactHandler(contact);
         setContact({ name: "", email: "" });
 
         props.history.push("/");
@@ -37,8 +44,8 @@ const AddContact = (props) => {
 
     return (
         <div className = "ui main">
-            <h2>Add Contact</h2>
-            <form className = "ui form" onSubmit = {add}>
+            <h2>Update Contact</h2>
+            <form className = "ui form" onSubmit = {update}>
                 <div className = "field">
                     <label>Name</label>
                     <input 
@@ -57,10 +64,10 @@ const AddContact = (props) => {
                         onChange = {handleEmailChange}
                         value = {contact.email} />
                 </div>
-                <button className = "ui button blue">Add</button>
+                <button className = "ui button blue">Update</button>
             </form>
         </div>
     );
 }
 
-export default AddContact;
+export default EditContact;
