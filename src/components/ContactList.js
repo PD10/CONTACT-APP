@@ -4,7 +4,9 @@ import ContactCard from './ContactCard';
 
 const ContactList = (props) => {
     const {
-        removeContactHandler
+        removeContactHandler,
+        searchContact,
+        // searchTerm
     } = props;
 
     const handleDelete = (id) => {
@@ -21,6 +23,12 @@ const ContactList = (props) => {
                     <button className = "ui button blue right" >Add Contact</button>
                 </Link>
             </h2>
+            <div className = "ui search">
+                <div className = "ui icon input">
+                    <input type = "text" placeholder = "Search Contacts" className = "prompt" onChange = {(event) => searchContact(event.target.value)}/>
+                    <i className = "search icon"></i>
+                </div>
+            </div>
             <div className = "ui celled list">{contactList}</div>
         </div>
     );

@@ -26,6 +26,20 @@ import EditContact from "./EditContact";
 function App() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredContacts, setFilteredContacts] = useState([]);
+
+  const searchContact = (searchedContact) => {
+    setSearchTerm(searchedContact);
+    if(searchedContact !== "") {
+      const contactFilteredList = contacts.filter((contact) => {
+        return Object.values(contact).join(" ").toLowerCase().includes(searchedContact.toLowerCase());
+      });
+      setFilteredContacts(contactFilteredList);
+    } else {
+      setContacts(contacts);
+    }
+  }
 
   const addContactHandler = (contact) => {
     // Yaha pe ek naya array bann raha hai and usme contacts unpack hua ek ek karke and ek aur item bass judd gaya
@@ -92,8 +106,10 @@ function App() {
               <ContactList
                   // Destructuring the props and unpacking it
                   {...props}
-                  contacts={contacts} 
+                  contacts={ searchTerm === "" ? contacts : filteredContacts } 
                   removeContactHandler={removeContactHandler}
+                  searchContact = {searchContact}
+                  searchTerm = {searchTerm}
               />
             }
           />
