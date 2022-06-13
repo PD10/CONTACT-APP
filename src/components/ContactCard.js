@@ -10,7 +10,18 @@ const ContactCard = (props) => {
     return (
         <div className = "item">
             <div className = "content">
-                <Link to = {{ pathName: `/contact/${contact.id}`, state: {contact: contact}}}>
+                {contact.id}
+                {`/contact/${contact.id}`}
+                <Link 
+                    to = {{
+                        pathName: `/contact/${contact.id}`,
+                        state: { contact: contact }
+                    }}
+                >
+                {/* <Link 
+                    to = {`/contact/${contact.id}`}
+                    state = { {contact: contact} }
+                > */}
                     <div className = "header">
                         {contact.name}
                     </div>

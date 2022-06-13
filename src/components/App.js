@@ -55,21 +55,10 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          {/* This is scenario of child to parent communication as only function is passed as props */}
-          <Route 
-            path = "/add" 
-            exact
-            render = {(props) => 
-              <AddContact
-                // Destructuring the props and unpacking it
-                {...props}
-                addContactHandler={addContactHandler} 
-              />
-            }
-          />
           {/* This is scenario of child to parent communication as function is passed as props + scenario of parent to child communication as data is passed from parent to child*/}
           <Route 
             path = "/" 
+            exact
             render = {(props) => 
               <ContactList
                   // Destructuring the props and unpacking it
@@ -79,7 +68,18 @@ function App() {
               />
             }
           />
+          {/* This is scenario of child to parent communication as only function is passed as props */}
           <Route 
+            path = "/add"
+            render = {(props) => 
+              <AddContact
+                // Destructuring the props and unpacking it
+                {...props}
+                addContactHandler={addContactHandler} 
+              />
+            }
+          />
+          {/* <Route 
             path = "/contact/:id" 
             render = {(props) => 
               <ContactDetail
@@ -87,7 +87,8 @@ function App() {
                 {...props} 
               />
             }
-          />
+          /> */}
+          <Route path="/contact/:id" exact component={ContactDetail} />
         </Switch>
         {/* <ParentComponent /> */}
       </Router>

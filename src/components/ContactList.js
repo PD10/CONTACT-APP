@@ -14,7 +14,7 @@ const ContactList = (props) => {
     const contactList = props.contacts.map(contact => <ContactCard contact = {contact} handleDelete = {handleDelete} key={contact.id} />);
 
     return (
-        <div class = "main">
+        <div className = "main">
             <h2>
                 Contact List
                 <Link to = "/add">
